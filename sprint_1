@@ -1,1 +1,174 @@
 
+1 IDENTIFICAÇÃO DO PROBLEMA COM SOLUÇÃO ALGORÍTMICA
+
+1.1 Problema
+Turistas perdem muito tempo pesquisando lugares “autênticos” da cidade. Esse
+problema decorre dos seguintes fatores:
+a) buscadores genéricos exibem resultados patrocinados;
+b) as avaliações são frequentemente manipuladas;
+c) inexiste filtro por “vibe” ou por autenticidade real;
+d) o usuário precisa analisar manualmente muitos resultados, sem o auxílio de
+inteligência artificial.
+
+1.2 Formulação Computacional do Problema
+Para a formulação computacional, consideram-se como dados de entrada:
+a) um conjunto de locais cadastrados;
+b) um conjunto de filtros escolhidos pelo usuário (tags emocionais);
+c) um limite de resultados (Top 3).
+Deseja-se retornar os três locais mais relevantes com base na compatibilidade
+entre os filtros selecionados e as características de cada local. Trata-se, portanto, de
+um problema clássico de filtragem e ranqueamento baseado em critérios múltiplos.
+
+2 MODELAGEM ALGORÍTMICA
+
+2.1 Entrada
+São considerados como entrada do algoritmo:
+a) a lista de locais (base de dados);
+b) as tags selecionadas pelo usuário;
+c) o peso atribuído a cada critério.
+
+2.2 Processamento
+
+O processamento ocorre em quatro etapas:
+a) comparar as tags do usuário com as tags de cada local;
+b) calcular uma pontuação de relevância;
+c) ordenar os locais pela pontuação obtida;
+d) retornar os três melhores resultados.
+2.3 Saída
+A saída do algoritmo é uma lista ordenada com os três locais recomendados
+(Top 3).
+
+3 ESTRUTURA DE DADOS
+Cada local é representado como um dicionário, conforme apresentado no
+Código-fonte 1. A base de dados é constituída por uma lista desses dicionários.
+Código-fonte 1 – Representação de um local
+local = {
+ "nome": "Bar do Zé",
+ "tags": ["culinária local", "escondido", "clima raiz"],
+ "nota_autenticidade": 9.2,
+ "preco_medio": 35
+}
+Fonte: Elaborado pelos autores (2026).
+
+4 ALGORITMO DE RECOMENDAÇÃO
+O Código-fonte 2 apresenta a função de recomendação implementada em
+Python, responsável por calcular a pontuação de cada local e retornar os três mais
+relevantes.
+Código-fonte 2 – Função de recomendação de locais
+def recomendar_locais(base, filtros_usuario):
+ resultados = []
+ for local in base:
+ score = 0
+ # Pontuação por compatibilidade de tags
+ for tag in filtros_usuario:
+
+if tag in local["tags"]:
+ score += 2
+ # Peso adicional pela nota de autenticidade
+ score += local["nota_autenticidade"] * 0.5
+ resultados.append((local["nome"], score))
+ # Ordena por maior pontuação
+ resultados.sort(key=lambda x: x[1], reverse=True)
+ # Retorna Top 3
+ return resultados[:3]
+Fonte: Elaborado pelos autores (2026).
+
+5 DIMENSÕES QUANTITATIVAS DO PROBLEMA
+
+5.1 Variáveis envolvidas
+Duas variáveis descrevem a dimensão do problema: N, número de locais
+cadastrados; e T, número de tags selecionadas pelo usuário.
+
+5.2 Complexidade do Algoritmo
+Como o algoritmo percorre todos os locais e, para cada um, todas as tags
+selecionadas, sua complexidade é O(N × T). A título de exemplo, para N = 500 locais
+e T = 4 filtros, são realizadas 2.000 comparações por busca, o que representa baixo
+custo computacional.
+5.3 Métricas Quantitativas de Validação
+Para avaliar o sistema, foram definidas as seguintes métricas:
+a) tempo médio de resposta do sistema: meta de menos de 1 segundo;
+b) redução do tempo de decisão: de 30 a 60 minutos de pesquisa para cerca
+de 2 minutos no aplicativo, uma redução estimada de 90%;
+c) CTR (click-through rate): meta inicial de 40%;
+d) taxa de retorno: meta de 25% dos usuários reutilizando o aplicativo no
+mesmo dia;
+e) precisão da recomendação: avaliação do usuário em escala de 1 a 5, com
+meta de média maior ou igual a 4.
+
+6 AMBIENTE DE PROGRAMAÇÃO UTILIZADO
+Para o MVP, o sistema pode ser implementado em Python (PYTHON
+SOFTWARE FOUNDATION, 2024) como backend de teste, com ferramentas no-code
+como Glide ou Softr para a construção do aplicativo e o Google Sheets como banco
+de dados inicial.
+Para uma versão escalável, prevê-se um backend em Python com o framework
+Flask (PALLETS PROJECTS, 2024), o banco de dados PostgreSQL (POSTGRESQL
+GLOBAL DEVELOPMENT GROUP, 2024) e uma API REST para o atendimento das
+requisições.
+
+7 CONCLUSÃO
+Com a modelagem apresentada, o projeto deixa de ser apenas um MVP de
+produto e passa a constituir-se como um problema formal de filtragem algorítmica,
+implementado em ambiente de programação, com modelagem computacional clara,
+análise quantitativa e avaliação de complexidade. Dessa forma, evidencia-se que a
+proposta possui fundamentação computacional consistente, viabilizando sua evolução
+para uma aplicação escalável.
+
+REFERÊNCIAS
+PALLETS PROJECTS. Flask documentation. [S. l.], 2024. Disponível em:
+https://flask.palletsprojects.com. Acesso em: 8 jun. 2026.
+POSTGRESQL GLOBAL DEVELOPMENT GROUP. PostgreSQL documentation. [S.
+l.], 2024. Disponível em: https://www.postgresql.org/docs. Acesso em: 8 jun. 2026.
+PYTHON SOFTWARE FOUNDATION. The Python language reference. [S. l.], 2024.
+Disponível em: https://docs.python.org. Acesso em: 8 jun. 2026.
+
+APÊNDICE A – QUADRO-RESUMO DO MODELO DE NEGÓCIO (CANVAS DO
+MVP)
+
+1. Proposta do MVP
+Auxiliar turistas com um sistema de filtros rápidos e curados para descobrir lugares e experiências
+autênticas (“fora do radar”, “onde os locais vão”), além de ajudar a otimizar o tempo de criação de
+roteiros de viagem, poupando tempo de pesquisa em buscadores genéricos.
+
+2. Personas Segmentadas
+O Turista Explorador/Autêntico: aquele que foge de excursões lotadas. Quer comer a comida “raiz”
+da região, conhecer lugares escondidos e vivenciar a cultura verdadeira do destino.
+O Viajante Prático: tem os dias contados na viagem e odeia perder horas lendo avaliações no
+TripAdvisor. Quer abrir o app, escolher uma “vibe” do momento e receber a melhor opção autêntica
+em até 2 minutos.
+
+3. Jornadas
+O turista acessa a plataforma, escolhe o mood (estado de espírito) do dia (ex.: “Com fome”, “Quero
+cultura”, “Vida noturna”), aplica filtros de autenticidade (ex.: “Clima raiz”, “Zero turistas”, “Lugar
+secreto”), recebe uma recomendação enxuta (Top 3 lugares autênticos) e clica no botão para abrir
+o Uber ou o Google Maps e ir até o local. Além da escolha do destino diário, a principal funcionalidade
+seria a criação de um roteiro de viagem com base no destino, no tempo disponível e nas tags de
+preferência do usuário, gerando um plano completamente editável que ajuda o viajante a saber onde
+ir e em qual horário, visando menor lotação e tempo de espera.
+
+4. Funcionalidades
+Filtros de Vibe e Autenticidade: em vez de filtrar apenas por “Preço”, filtrar por tags emocionais como
+“Escondido”, “Culinária Local”, “Lugar Histórico” e “Clima Descontraído”.
+Base de Dados Hiper-Curada: um catálogo inicial focado em apenas uma cidade/bairro, contendo
+apenas lugares previamente aprovados como 100% autênticos (sem redes de fast food globais).
+Ficha do Local “Direto ao Ponto”: uma tela com foto, uma frase explicando por que o lugar é
+autêntico, preço médio e o botão “Como chegar”.
+
+5. Resultado Esperado
+Para o usuário: entregar a sensação de que descobriu um “segredo” da cidade, com uma experiência
+memorável e sem estresse.
+Para o negócio: validar se a promessa de “autenticidade” atrai mais usuários do que os guias
+turísticos tradicionais e se o funil de filtros realmente funciona.
+
+6. Métricas para validar as hipóteses de negócio
+Uso de Tags: quais filtros de autenticidade são os mais clicados? (Ajuda a entender o que o turista
+mais deseja.)
+Taxa de Ação (CTR): quantos usuários chegam ao final do filtro e clicam no botão “Abrir no Mapa”
+ou “Chamar Uber”? (Prova de que a recomendação foi aceita.)
+Taxa de Retorno: o turista usou o app para o almoço e voltou a abri-lo à noite para procurar um bar?
+
+7. Custo e Cronograma
+Cronograma: de 2 a 3 meses. Custo: baixíssimo, pois os conhecimentos adquiridos durante o curso
+permitem criar esse catálogo filtrável. O maior investimento será de tempo, para mapear os lugares
+autênticos da cidade escolhida para o teste e avaliar a viabilidade de implementar o uso de IA no
+software, que seria uma das ferramentas mais importantes e o verdadeiro diferencial do app.
+Fonte: Elaborado pelos autores (2026).
